@@ -25,9 +25,9 @@ ActiveRecord::Schema[7.0].define(version: 2023_10_06_130436) do
     t.string "surname"
     t.string "name"
     t.string "email"
-    t.integer "number"
+    t.bigint "number"
     t.string "username"
-    t.string "password"
+    t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
