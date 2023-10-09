@@ -1,5 +1,4 @@
-require 'rails_helper'
-# t.integer "number"
+require 'rails_helper'      
 # t.string "password"
 
 RSpec.describe User, type: :model do
@@ -63,6 +62,27 @@ RSpec.describe User, type: :model do
       expect(user.errors[:username]).to eq(["is too long (maximum is 30 characters)"])
     end
 
+    it "Validate user, if on Username enter only char." do
+      user = build(:user, username:"User")
+      expect(user.save).to eq(true)
+    end
+
+    it "Validate user, if on Username enter only number." do
+      user = build(:user, username:"User")
+      expect(user.save).to eq(true)
+    end
+
+    it "Validate user, if on Username enter alphanumeric." do
+      user = build(:user, username:"User123")
+      expect(user.save).to eq(true)
+    end
+
+    it "Validate user, if on Username enter special char." do
+      user = build(:user, username:"User@123")
+      expect(user.save).to eq(false)
+    end
+
+
     # email
     it " Validate user if email is blank " do 
       user = build(:user, email:"",)
@@ -119,6 +139,48 @@ RSpec.describe User, type: :model do
       expect(user.errors[:number]).to eq(["is not a number", "is too short (minimum is 10 characters)"])
     end
 
+    # password
+    it "Validate user if password is blank" do 
+      # debugger
+      user = build(:user, password:"") 
+      expect(user.save).to eq(false)
+      expect(user.errors[:password]).to eq(["can't be blank", "is invalid"])
+    end
+
+    it "Validate user if on password special char missing" do
+      user = build(:user, password:"User1234")
+      expect(user.save).to eq(false)
+      expect(user.errors[:password]).to eq(["is invalid"])
+    end
+
+    it "Validate user if on password uppercase char is missing" do
+      user = build(:user, password:"user1234")
+      expect(user.save).to eq(false)
+      expect(user.errors[:password]).to eq(["is invalid"])
+    end
+
+    it "Validate user if on password lowercase char is missing" do
+      user = build(:user, password:"USER1234")
+      expect(user.save).to eq(false)
+      expect(user.errors[:password]).to eq(["is invalid"])
+    end
+
+    it "Validate user if on password number is missing" do
+      user = build(:user, password:"USER1234")
+      expect(user.save).to eq(false)
+      expect(user.errors[:password]).to eq(["is invalid"])
+    end
+
+    it "Validate user if on password length is too short" do
+      user = build(:user, password:"Us@1")
+      expect(user.save).to eq(false)
+      expect(user.errors[:password]).to eq(["is invalid"])
+    end
+
+    it "Validate user if on password length is too long" do
+      user = build(:user, password:"User@1234123456789asdfghjksdfghjusxdfghjfghj")
+      expect(user.save).to eq(true)
+    end
   end
 end
 
