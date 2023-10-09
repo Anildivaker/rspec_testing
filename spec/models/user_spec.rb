@@ -107,7 +107,7 @@ RSpec.describe User, type: :model do
 
     # number
     it " Validate user if Mobile number is blank " do 
-      user = build(:user, number:"",)
+      user = build(:user, number:nil)
       user.save
       expect(user.id).to eq(nil)
       expect(user.errors[:number]).to eq(["can't be blank", "is not a number", "is too short (minimum is 10 characters)"])
