@@ -3,12 +3,12 @@ require 'rails_helper'
 RSpec.describe ArticlesController, type: :request do
   describe "GET /index" do
     before(:each) do 
-      @article = Article.create(title: "This is Article", body: "this is body")
+      @article = Article.create(title: "First Article", body: "body")
     end
 
-    context "get all the articles" do 
-      it "return all the article" do 
-        get "/articles" #method and routes
+    context "Get all articles" do 
+      it 'return all articles' do 
+        get "/articles"
         expect(response).to have_http_status(200)
         res = JSON response.body
         expect(res.count).to eq(Article.count)
@@ -28,6 +28,43 @@ RSpec.describe ArticlesController, type: :request do
         expect(response).to have_http_status(404)
         res = JSON response.body
         expect(res["message"]).to eq("not found")
+      end
+    end
+
+    context "Create article" do 
+      it 'return a articles for show article api' do 
+        pre_article_count = Article.count
+        post "/articles", params: {article: {title: "title", body: "body"}}
+        expect(response).to have_http_status(201)
+        res = JSON response.body
+        expect(Article.count).to eq(pre_article_count+1)
+      end
+
+      it 'raise error when pass wrong arguments' do 
+        post "/articles", params: {article: {title: "", body: ""}}
+        expect(response).to have_http_status(422)
+      end
+    end
+
+    context "Update article" do 
+      it 'update the fields of article' do 
+        patch "/articles/#{@article.id}", params: {article: {title: "1 title"}}
+        expect(response).to have_http_status(200)
+        res = JSON response.body
+        expect(Article.find(@article.id).title).to eq("1 title")
+      end
+
+      it 'raise error when pass wrong arguments' do 
+        patch "/articles/#{@article.id}", params: {article: {title: ""}}
+        expect(response).to have_http_status(422)
+      end
+    end
+
+    context "Delete the articles" do 
+      it 'delete the given ids article' do 
+        delete "/articles/#{@article.id}"
+        expect(response).to have_http_status(200)
+        expect(Article.find_by_id(@article.id)).to eq(nil)
       end
     end
   end

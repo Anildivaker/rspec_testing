@@ -3,7 +3,11 @@ class ArticlesController < ApplicationController
   
     def index
       @articles = Article.all 
-      render json: @articles, status: :ok
+      if @articles.present?
+        render json: @articles, status: :ok
+      else
+        render json: {message: "Articles not found"}, status: :not_found
+      end
     end
   
 
@@ -31,6 +35,7 @@ class ArticlesController < ApplicationController
   
     def destroy
       @article.destroy
+      render json: {message: "Destroy successfully"}, status: :ok
     end
   
     private
