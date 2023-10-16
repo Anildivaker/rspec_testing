@@ -1,5 +1,6 @@
 class User < ApplicationRecord
     has_secure_password
+    has_many :comments
     validates :name, presence: true, length: { minimum: 2 }
     validates :surname, presence: true, length: { maximum: 30 }
     validates :username, presence: true, length: { maximum: 30 }, uniqueness: true, format: { with: /\A[a-zA-Z0-9]+\z/ }

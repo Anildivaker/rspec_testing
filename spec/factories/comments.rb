@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :user_login do
+  factory :comment do
     
   end
 end
