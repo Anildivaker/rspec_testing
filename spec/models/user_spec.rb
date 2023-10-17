@@ -41,7 +41,6 @@ RSpec.describe User, type: :model do
 
     # Username
     it " Validate user if username is blank " do 
-      # debugger
       user = build(:user, username:"")
       user.save
       expect(user.id).to eq(nil)
@@ -73,7 +72,8 @@ RSpec.describe User, type: :model do
     end
 
     it "Validate user, if on Username enter alphanumeric." do
-      user = build(:user, username:"User123")
+
+      user = build(:user, username:"User12355555555555555555")
       expect(user.save).to eq(true)
     end
 

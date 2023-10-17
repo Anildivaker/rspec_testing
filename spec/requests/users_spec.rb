@@ -1,49 +1,41 @@
+# spec/controllers/users_controller_spec.rb
 require 'rails_helper'
-require 'jwt'
 
-RSpec.describe "Users", type: :request do
-  let(:valid_user_params) do |example|
-    {
-      username: 'tes1tuser',
-      password: 'Pas@123sword',
-      name: 'John',
-      surname: 'Doe',
-      email: 'john.doe@example.com',
-      number: '1234567890'
+RSpec.describe UsersController, type: :request do
+  describe '#create and login' do
+    let(:base_url) {"/users"}
+    let(:create_params) {
+      {user: {name: "anil", surname: "div",email: "an12@gmail.com",number:1234567892,username: "anil12345678",password:"Anil@123"}}
     }
-  end
-
-  describe '#create' do
-  it 'creates a user and returns a valid token' do
-    post "/users", params: { user: valid_user_params }
-
-    expect(response).to have_http_status(:ok)
-    expect(response.content_type).to eq('application/json; charset=utf-8')
-
-    body = JSON.parse(response.body)
-    token = body['token']
-
-    decoded_token = JWT.decode(token, 'your_secret_key', true, algorithm: 'HS256')
-    user_id = decoded_token[0]['user_id']
-    expect(user_id).to eq(User.last.id)
-  end
-  end
-
-  describe '#login' do
-    let!(:user) { User.create(valid_user_params) }
-
-    it 'logs in a user and returns a valid token' do
-      post :login, params: { user: { username: valid_user_params[:username], password: valid_user_params[:password] } }
-
-      expect(response).to have_http_status(:ok)
-      expect(response).to have_content_type(:json)
-
-      body = JSON.parse(response.body)
-      token = body['token']
-
-      decoded_token = JWT.decode(token, 'your_secret_key', true, algorithm: 'HS256')
-      user_id = decoded_token[0]['user_id']
-      expect(user_id).to eq(user.id)
+    before(:each) do
+      user = create(:user)
+      @token = JWT.encode({ user_id:  user.id}, 'secret')
+      @user = User.create(name: "ravi12", surname: "ravii",username: "ravi123456",password:"Anil@123",email: "ravi123@gmail.com",number:1239567892)
+    end
+    context "Create User" do
+      it 'return a user for show user api' do
+        pre_user_count = User.count
+        post base_url, params: create_params
+        expect(response).to have_http_status(200)
+        res = JSON response.body
+        expect(User.count).to eq(pre_user_count+1)
+      end
+      it 'raise error when pass wrong arguments' do
+        post base_url, params: {user: {name: "", surname: "", email: "", number:nil,username: "",password:" "}}
+        expect(response).to have_http_status(422)
+      end
+    end
+  
+    context 'Login' do
+      it 'returns a valid user and token' do
+        post  "/login", params: { user: { username: @user.username, password: "Anil@123" } }
+        expect(response).to have_http_status(:ok)
+      end
+      it 'returns invalid user error' do
+        post  "/login", params: { user: { username: @user.username, password: "aa1233@" } }
+        expect(response).to have_http_status(:unprocessable_entity)
+      end
     end
   end
 end
+    
