@@ -35,10 +35,10 @@ RSpec.describe "Comments", type: :request do
         expect(Comment.count).to eq(pre_comment_count+1)
       end
       # I did not add validation 
-      # it 'raise error when pass wrong arguments' do
-      #   post base_url, headers: { 'Authorization' => "bearer "+@token } ,params: {comment: {title: "", body: ""}}
-      #   expect(response).to have_http_status(422)
-      # end
+      it 'raise error when pass wrong arguments' do
+        post base_url, headers: { 'Authorization' => "bearer "+@token } ,params: {comment: {title: "", body: ""}}
+        expect(response).to have_http_status(422)
+      end
     end
     context "Update comments" do
       it 'update the title of the comment' do
@@ -48,10 +48,10 @@ RSpec.describe "Comments", type: :request do
         expect(Comment.find(@comment.id).title).to eq("1 title")
       end
       # I did not add validation 
-      # it 'raise error when pass wrong arguments' do
-      #   patch "/#{base_url}/#{@article.id}", headers: { 'Authorization' => "bearer "+@token } ,params: {article: {title: ""}}
-      #   expect(response).to have_http_status(422)
-      # end
+      it 'raise error when pass wrong arguments' do
+        patch "/#{base_url}/#{@comment.id}", headers: { 'Authorization' => "bearer "+@token } ,params: {comment: {title: ""}}
+        expect(response).to have_http_status(422)
+      end
     end
     context "delete" do
       it 'delete the comment' do

@@ -3,11 +3,7 @@ class ArticlesController < ApplicationController
   
     def index
       @articles = Article.all 
-      if @articles.present?
-        render json: @articles, status: :ok
-      else
-        render json: {message: "Articles not found"}, status: :not_found
-      end
+      render json: @articles, status: :ok
     end
   
 
