@@ -38,6 +38,9 @@ class CommentsController < ApplicationController
   private
     def set_comment
       @comment = @user.comments.find(params[:id])
+      unless @comment.present?
+        render json: {message: "not found"}, status: :not_found
+      end
     end
 
     def comment_params
