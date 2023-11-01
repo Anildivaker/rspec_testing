@@ -24,9 +24,11 @@ gem "puma", "~> 5.0"
 # Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
 gem "bcrypt", "~> 3.1.7"
 gem 'jwt'
-gem "devise"
+gem 'devise'
 gem 'activeadmin'
 gem 'sass-rails'
+gem 'sassc-rails'
+gem 'sprockets'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
 gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
