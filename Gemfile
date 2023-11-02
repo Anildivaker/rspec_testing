@@ -27,7 +27,6 @@ gem 'jwt'
 gem 'devise'
 gem 'activeadmin'
 gem 'sass-rails'
-gem 'sassc-rails'
 gem 'sprockets'
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem
