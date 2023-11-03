@@ -27,5 +27,9 @@
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+<<<<<<< HEAD
 #this line is for active admin branch 
 # use ammend command to upadte this 
+=======
+#this line is for active admin branch 
+>>>>>>> 0710653378c06e49e8abd18a83576fd4387487b3
