@@ -109,12 +109,6 @@ gem 'sprockets'
 
 
 
-
-
-
-
-
-
 ----------- Steps for mailer ---------
 1. rails g mailer article_mailer 
 2. app/mailer/article_mailer (modify this file)
@@ -137,3 +131,27 @@ gem 'sprockets'
     ArticleMailer.welcome_email(@article).deliver
 
 
+--------------arctic-admin----------------
+1. Add this to your Gemfile:
+    gem 'arctic_admin'
+
+2. Run bundle install.
+
+3. Add this line to the file config/initializers/active_admin.rb
+
+meta_tags_options = { viewport: 'width=device-width, initial-scale=1' }
+config.meta_tags = meta_tags_options
+config.meta_tags_for_logged_out_pages = meta_tags_options
+
+4. Remove the line @import "active_admin/base" from active_admin.css
+    If you use the Sass indented syntax, add this to your active_admin.sass file:
+    $primary-color: #2dbb43  <- this is color code you can change if you want
+    @import arctic_admin/base
+            or
+    If you prefer SCSS, add this to your active_admin.scss file:
+    $primary-color: #2dbb43; <- this is color code you can change if you want
+    @import "arctic_admin/base";
+
+5. In your active_admin.js, include the js file:
+    //= require arctic_admin/base
+    Remove the line //= require active_admin/base
