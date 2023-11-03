@@ -15,6 +15,8 @@ class ArticlesController < ApplicationController
       @article = Article.new(article_params)
   
       if @article.save
+        # add mailer 
+        ArticleMailer.welcome_email(@article).deliver
         render json: @article, status: :created
       else
         render json: @article.errors, status: :unprocessable_entity
