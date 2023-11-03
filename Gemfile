@@ -26,6 +26,8 @@ gem "bcrypt", "~> 3.1.7"
 gem 'jwt'
 gem 'devise'
 gem 'activeadmin'
+# arctic_admin is Customizing active admin pannel (move to left side)
+gem 'arctic_admin' 
 gem 'sass-rails'
 gem 'sprockets'
 
