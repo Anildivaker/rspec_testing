@@ -169,3 +169,53 @@ config.meta_tags_for_logged_out_pages = meta_tags_options
 6. Add new line in manifest.js file (app/assets/config/manifest.js)
     //= link logo.png
 7. Run server and check on browser
+
+
+
+
+
+-----------Radis Server setup-----------------
+1. Add gems
+    gem 'sidekiq', "< 7" (this is for sidekiq)
+    bundle install
+
+2. Open terminal
+    rails g job update_author_name
+
+3. Open update_author_name file (app/update_author_name.rb)
+    class UpdateAuthorNameJob < ApplicationJob
+        queue_as :default
+
+        def perform(user)
+            user.update(name: "google")
+        end
+    end
+
+4. Add this line in application.rb file 
+    module Blog
+        class Application < Rails::Application
+            config.active_job.queue_adapter = :sidekiq
+            
+        end
+    end
+
+5. Open Console (rails c)
+    5.1  create a new author
+
+6.  redis server commands 
+    For running the server:-  redis-server
+    For Checking the Status:- sudo systemctl status redis
+    For Re-starting the server:- sudo systemctl restart redis.service
+    For stoping the server:-  sudo systemctl stop redis
+
+7. sidekiq commands   
+    For running the sidekiq:-  bundle exe sidekiq
+
+8. Ater setup redis and sidekiq open console 
+    UpdateAuthorNameJob.set(wait: 10.seconds).perform_later(Author.name)
+                        or 
+    UpdateAuthorName.job.perform_now(Author.name)
+    
+
+
+    

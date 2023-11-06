@@ -40,5 +40,6 @@ module RspecTesting
     config.middleware.use Rack::MethodOverride
     # config.middleware.use ActionDispatch::Cookies
     config.assets.precompile += %w(.png)
+    config.active_job.queue_adapter = :sidekiq
   end
 end
