@@ -301,6 +301,7 @@ DEPENDENCIES
   rspec-rails
   rspec-sonarqube-formatter (= 1.5.0)
   sass-rails
+  sassc-rails
   simplecov (= 0.17.0)
   sprockets
   tzinfo-data

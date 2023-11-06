@@ -155,3 +155,17 @@ config.meta_tags_for_logged_out_pages = meta_tags_options
 5. In your active_admin.js, include the js file:
     //= require arctic_admin/base
     Remove the line //= require active_admin/base
+
+
+-----------Add logo on active admin (top left side)------------
+1. create folder of images (app/assets/images)
+2. Add image inside images folder (app/assets/images/logo.png)
+3. Add new line in application.rb file inside this class (class Application < Rails::Application)
+    config.assets.precompile += %w(.png)
+4. On Active_admin.rb file uncomment or add this line
+    config.site_title_image = "logo.png"
+5. Run this command on terminal
+    rails assets:precompile
+6. Add new line in manifest.js file (app/assets/config/manifest.js)
+    //= link logo.png
+7. Run server and check on browser

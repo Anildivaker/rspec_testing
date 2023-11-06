@@ -39,5 +39,6 @@ module RspecTesting
     config.middleware.use ActionDispatch::Flash
     config.middleware.use Rack::MethodOverride
     # config.middleware.use ActionDispatch::Cookies
+    config.assets.precompile += %w(.png)
   end
 end
